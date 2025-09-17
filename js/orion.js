@@ -1,10 +1,12 @@
-// -- orion.js - Core Library (Expanded) --
-// --------------------------------------
+// -- orion.js - Core Library (Expanded + Fixes) --
+// ----------------------------------------------
 (function() {
     'use strict';
 
     const qs = (sel, root = document) => root.querySelector(sel);
     const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 
     const orion = {
         init: function() {
@@ -25,6 +27,9 @@
             this.initializeChips();
             this.initializeTooltips();
             this.initializePagination();
+            this.initializeRanges(); // NEW: Range slider fix + enhancements
+            this.initializeDrawer(); // NEW: Drawer component
+            this.initializeLoadingButtons(); // NEW: Loading state helper
             this.bindShortcuts();
         },
 
@@ -185,6 +190,7 @@
             setInterval(() => {
                 const cells = qsa('.matrix-cell');
                 const randomCell = cells[Math.floor(Math.random() * cells.length)];
+                if (!randomCell) return;
                 randomCell.classList.add('active');
                 setTimeout(() => randomCell.classList.remove('active'), 2000);
             }, 50);
@@ -310,10 +316,92 @@
                     const t = e.target.closest('.orion-page');
                     if (!t) return;
                     const idx = Number(t.getAttribute('data-page'));
-                    if (!isNaN(idx)) { page = idx; onChange(); }
+                    if (!isNaN(idx)) { page = clamp(idx, 1, total); onChange(); }
                 });
                 // init
                 onChange();
+            });
+        },
+
+        // Range sliders: cross-browser styles + fill + bubble label
+        initializeRanges: function() {
+            const update = (input, bubble) => {
+                const min = Number(input.min || 0);
+                const max = Number(input.max || 100);
+                const val = Number(input.value || min);
+                const pct = (val - min) * 100 / (max - min || 1);
+                // background fill
+                const fillColor = getComputedStyle(input).getPropertyValue('--orion-primary') || '#f0f0f0';
+                const trackColor = 'rgba(255, 255, 255, 0.08)';
+                input.style.background = `linear-gradient(to right, ${fillColor} ${pct}%, ${trackColor} ${pct}%)`;
+                // bubble
+                if (bubble) {
+                    bubble.textContent = String(val);
+                    const bounds = input.getBoundingClientRect();
+                    const x = bounds.left + (pct / 100) * bounds.width;
+                    const parentLeft = input.parentElement.getBoundingClientRect().left;
+                    bubble.style.left = `${x - parentLeft}px`;
+                }
+            };
+
+            qsa('input[type="range"]').forEach(input => {
+                // wrap once
+                if (!input.parentElement.classList.contains('orion-range-wrap')) {
+                    const wrap = document.createElement('div');
+                    wrap.className = 'orion-range-wrap';
+                    input.parentElement.insertBefore(wrap, input);
+                    wrap.appendChild(input);
+                }
+                // bubble opt-in: add data-bubble or default true for preview
+                const useBubble = input.hasAttribute('data-bubble') || input.closest('.orion-component-example');
+                let bubble;
+                if (useBubble) {
+                    bubble = document.createElement('span');
+                    bubble.className = 'orion-range-bubble';
+                    input.after(bubble);
+                }
+                const onInput = () => update(input, bubble);
+                input.addEventListener('input', onInput);
+                input.addEventListener('change', onInput);
+                window.addEventListener('resize', onInput);
+                onInput();
+            });
+        },
+
+        // Drawer (off-canvas panel)
+        initializeDrawer: function() {
+            const body = document.body;
+            const openers = qsa('[data-drawer-open]');
+            const closers = qsa('[data-drawer-close]');
+
+            const open = (sel) => {
+                const dr = qs(sel);
+                if (!dr) return;
+                dr.classList.add('open');
+                body.classList.add('orion-drawer-open');
+            };
+            const close = (dr) => {
+                dr.classList.remove('open');
+                body.classList.remove('orion-drawer-open');
+            };
+
+            openers.forEach(btn => btn.addEventListener('click', () => open(btn.getAttribute('data-drawer-open'))));
+            closers.forEach(btn => btn.addEventListener('click', () => close(btn.closest('.orion-drawer'))));
+            document.addEventListener('click', (e) => {
+                const target = e.target;
+                if (target.classList?.contains('orion-drawer')) close(target);
+            });
+        },
+
+        // Buttons loading helper
+        initializeLoadingButtons: function() {
+            qsa('[data-loading]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const dur = Number(btn.getAttribute('data-loading')) || 1200;
+                    btn.classList.add('is-loading');
+                    btn.disabled = true;
+                    setTimeout(() => { btn.classList.remove('is-loading'); btn.disabled = false; }, dur);
+                });
             });
         },
 
@@ -322,7 +410,38 @@
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                     e.preventDefault();
-                    this.showToast('Shortcut: Ctrl/Cmd+K', 'info');
+                    // Basic command palette
+                    const existing = qs('#orion-cmd');
+                    if (existing) { existing.remove(); return; }
+                    const overlay = document.createElement('div');
+                    overlay.id = 'orion-cmd';
+                    overlay.innerHTML = `
+                        <div class="orion-cmd-overlay"></div>
+                        <div class="orion-cmd-panel orion-card">
+                            <input class="orion-input" placeholder="Type a command... (e.g., toast success, open modal #myModal)" />
+                            <div class="orion-cmd-hint">Try: <kbd>toast success</kbd>, <kbd>toast error</kbd>, <kbd>open #importModal</kbd></div>
+                        </div>`;
+                    document.body.appendChild(overlay);
+                    const input = overlay.querySelector('input');
+                    input.focus();
+                    const close = () => overlay.remove();
+                    overlay.querySelector('.orion-cmd-overlay').addEventListener('click', close);
+                    input.addEventListener('keydown', (ev) => {
+                        if (ev.key === 'Escape') close();
+                        if (ev.key === 'Enter') {
+                            const v = input.value.trim().toLowerCase();
+                            if (v.startsWith('toast')) {
+                                const type = v.split(' ')[1] || 'info';
+                                this.showToast(`Sample ${type} toast`, type);
+                            } else if (v.startsWith('open')) {
+                                const sel = v.split(' ')[1];
+                                const modal = qs(sel);
+                                if (modal?.classList.contains('orion-modal')) modal.style.display = 'block';
+                            }
+                            close();
+                        }
+                    });
+                    return;
                 }
                 if (e.key === 'Escape') {
                     qsa('.orion-modal').forEach(m => m.style.display = 'none');
