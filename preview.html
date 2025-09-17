@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orion UI - Interstellar Library</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono:wght@400&display=swap">
+    <link rel="stylesheet" href="./css/orion.css">
+</head>
+
+<body>
+    <div class="orion-stars-bg"></div>
+
+    <nav class="orion-navbar">
+        <a href="#" class="orion-ripple">Orion UI</a>
+        <div class="orion-nav-links">
+            <a href="#components">Components</a>
+            <a href="#docs">Docs</a>
+            <a href="#">Github</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center">Orion UI</h1>
+        <p class="text-center">A CSS & JS library for building stellar interfaces.</p>
+
+        <hr class="my-lg">
+
+        <h2 id="components">Library Components</h2>
+        <p>A collection of galactic UI elements for your next project. Click on a component's header to jump to its code snippet.</p>
+
+        <div class="orion-grid">
+            <div class="orion-card">
+                <h3>Matrix Grid</h3>
+                <p>An animated, data-driven grid with cascading binary code. Perfect for dashboards and terminals.</p>
+                <div class="orion-component-example">
+                    <div id="orion-matrix-grid"></div>
+                </div>
+                <pre><code>&lt;div id="orion-matrix-grid"&gt;&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Code Terminal</h3>
+                <p>A customizable terminal that simulates typing a sequence of commands with a blinking cursor.</p>
+                <div class="orion-component-example">
+                    <div class="orion-terminal">
+                        <pre id="orion-terminal-output"></pre>
+                    </div>
+                </div>
+                <pre><code>&lt;div class="orion-terminal"&gt;...&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Buttons</h3>
+                <p>Use the <code>.orion-btn</code> class with a style variant. The <code>.orion-ripple</code> class adds a click animation.</p>
+                <div class="orion-component-example">
+                    <button class="orion-btn orion-btn-primary orion-ripple">Primary Button</button>
+                    <button class="orion-btn orion-btn-ghost orion-ripple">Ghost Button</button>
+                </div>
+                <pre><code>&lt;button class="orion-btn orion-btn-primary"&gt;...&lt;/button&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Form Elements</h3>
+                <p>Minimalist input fields and text areas with a glowing focus state.</p>
+                <div class="orion-component-example">
+                    <input type="text" class="orion-input" placeholder="Your name...">
+                    <textarea class="orion-textarea" rows="3" placeholder="Your message..."></textarea>
+                </div>
+                <pre><code>&lt;input type="text" class="orion-input"&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Cards</h3>
+                <p>The <code>.orion-card</code> class creates a semi-transparent container with a subtle shadow and hover effect.</p>
+                <div class="orion-component-example">
+                    <div class="orion-card-nested">
+                        <p>This is a nested card. Cards are great for data displays.</p>
+                    </div>
+                </div>
+                <pre><code>&lt;div class="orion-card"&gt;&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Progress Bar</h3>
+                <p>A loading bar with a subtle animated shimmer. Set the progress with the <code>data-value</code> attribute.</p>
+                <div class="orion-component-example">
+                    <div class="orion-progress">
+                        <div class="orion-progress-bar" data-value="65"></div>
+                    </div>
+                </div>
+                <pre><code>&lt;div class="orion-progress-bar" data-value="65"&gt;&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Data Table</h3>
+                <p>A clean, monospace data table for structured information. Hover over rows for a glow effect.</p>
+                <div class="orion-component-example">
+                    <table class="orion-table">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Navigation</td>
+                                <td>Online</td>
+                            </tr>
+                            <tr>
+                                <td>Telemetry</td>
+                                <td>Warning</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pre><code>&lt;table class="orion-table"&gt;...&lt;/table&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Switch</h3>
+                <p>A modern toggle switch for on/off states. It has an animated state change.</p>
+                <div class="orion-component-example">
+                    <label class="orion-switch">
+                        <input type="checkbox" checked>
+                        <span class="orion-slider"></span>
+                    </label>
+                </div>
+                <pre><code>&lt;label class="orion-switch"&gt;...&lt;/label&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Dropdown Menu</h3>
+                <p>A sleek, retractable menu that appears on click. Great for navigation and settings.</p>
+                <div class="orion-component-example">
+                    <div class="orion-dropdown">
+                        <button class="orion-btn orion-btn-ghost orion-ripple">Menu &#9662;</button>
+                        <div class="orion-dropdown-content">
+                            <a href="#">Profile</a>
+                            <a href="#">Settings</a>
+                            <a href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <pre><code>&lt;div class="orion-dropdown"&gt;...&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Accordion</h3>
+                <p>Collapsible content sections. Ideal for FAQs or a detailed display of information.</p>
+                <div class="orion-component-example">
+                    <div class="orion-accordion">
+                        <button class="orion-accordion-header">Section 1</button>
+                        <div class="orion-accordion-content">
+                            <p>Content for section 1.</p>
+                        </div>
+                        <button class="orion-accordion-header">Section 2</button>
+                        <div class="orion-accordion-content">
+                            <p>Content for section 2.</p>
+                        </div>
+                    </div>
+                </div>
+                <pre><code>&lt;div class="orion-accordion"&gt;...&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Tabs</h3>
+                <p>Organize content into different sections with a slick, animated transition between tabs.</p>
+                <div class="orion-component-example">
+                    <div class="orion-tabs">
+                        <div class="orion-tab-headers">
+                            <button class="orion-tab-header orion-active-tab" data-tab="tab1">Data</button>
+                            <button class="orion-tab-header" data-tab="tab2">Logs</button>
+                        </div>
+                        <div class="orion-tab-content orion-active-content" id="tab1">
+                            <p>Live data feed from the starship's telemetry system.</p>
+                        </div>
+                        <div class="orion-tab-content" id="tab2">
+                            <p>System logs and event history. All clear.</p>
+                        </div>
+                    </div>
+                </div>
+                <pre><code>&lt;div class="orion-tabs"&gt;...&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Modal</h3>
+                <p>A pop-up window to display important information. Click the button to launch the modal.</p>
+                <div class="orion-component-example">
+                    <button class="orion-btn orion-btn-ghost orion-ripple" data-modal-target="#myModal">Open Modal</button>
+                    <div id="myModal" class="orion-modal">
+                        <div class="orion-modal-content orion-card">
+                            <span class="orion-modal-close">&times;</span>
+                            <h4>Interstellar Communication</h4>
+                            <p>Message received from base station: All systems online and operational.</p>
+                            <button class="orion-btn orion-btn-primary orion-ripple">Acknowledge</button>
+                        </div>
+                    </div>
+                </div>
+                <pre><code>&lt;button data-modal-target="#myModal"&gt;...&lt;/button&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Alerts</h3>
+                <p>Animated notification boxes for various statuses. They have a subtle pulsating animation.</p>
+                <div class="orion-component-example">
+                    <div class="orion-alert orion-alert-info">System update available.</div>
+                    <div class="orion-alert orion-alert-warning">Warning: Low power on auxiliary systems.</div>
+                    <div class="orion-alert orion-alert-error">Critical failure detected.</div>
+                </div>
+                <pre><code>&lt;div class="orion-alert orion-alert-info"&gt;...&lt;/div&gt;</code></pre>
+            </div>
+
+            <div class="orion-card">
+                <h3>Toast Notifications</h3>
+                <p>Small, temporary alerts that pop up and fade away. Click the button to trigger a toast.</p>
+                <div class="orion-component-example">
+                    <button class="orion-btn orion-btn-primary orion-ripple" data-toast-message="Telemetry data synced.">Show Toast</button>
+                </div>
+                <pre><code>&lt;button data-toast-message="message"&gt;...&lt;/button&gt;</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/orion.js"></script>
+</body>
+
+</html>

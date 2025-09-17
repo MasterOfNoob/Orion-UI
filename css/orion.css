@@ -1,0 +1,758 @@
+/* -- orion.css - B&W Theme -- */
+
+
+/* -------------------------------------- */
+
+
+/* Global Variables and Base Styles */
+
+
+/* -------------------------------------- */
+
+:root {
+    /* Color Palette - Customize everything here! */
+    --orion-dark: #000000;
+    --orion-deep-space: #0a0a0a;
+    --orion-star-field: rgba(255, 255, 255, 0.05);
+    --orion-light-gray: #d4d4d4;
+    --orion-mid-gray: #7d7d7d;
+    --orion-accent: #f0f0f0;
+    --orion-text: var(--orion-light-gray);
+    --orion-primary: #f0f0f0;
+    --orion-secondary: #0a0a0a;
+    --orion-tertiary: #5c5c5c;
+    --orion-warning: #ffbf00;
+    --orion-error: #ff4d4d;
+    --orion-info: #b3cde0;
+    /* Typography */
+    --orion-font-mono: 'Roboto Mono', monospace;
+    --orion-font-sans: 'Montserrat', sans-serif;
+    --orion-font-size: 1rem;
+    --orion-line-height: 1.6;
+    /* Spacing */
+    --orion-space-xs: 4px;
+    --orion-space-sm: 8px;
+    --orion-space-md: 16px;
+    --orion-space-lg: 24px;
+    --orion-space-xl: 48px;
+    /* Border Radius */
+    --orion-radius-sm: 4px;
+    --orion-radius-md: 8px;
+    --orion-radius-lg: 12px;
+    --orion-radius-full: 999px;
+    /* Shadows & Glows */
+    --orion-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    --orion-glow: 0 0 15px rgba(240, 240, 240, 0.5);
+    --orion-primary-glow: 0 0 15px var(--orion-primary);
+    --orion-warning-glow: 0 0 10px var(--orion-warning);
+    --orion-error-glow: 0 0 10px var(--orion-error);
+    /* Animation Durations */
+    --orion-anim-fast: 0.2s;
+    --orion-anim-normal: 0.4s;
+    --orion-anim-slow: 0.8s;
+}
+
+
+/* Base Styles */
+
+body {
+    font-family: var(--orion-font-sans);
+    background-color: var(--orion-background);
+    color: var(--orion-text);
+    line-height: var(--orion-line-height);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+
+/* Starfield Background Animation */
+
+.orion-stars-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(200% 200% at 10% 10%, rgba(240, 240, 240, 0.05), transparent 25%), radial-gradient(200% 200% at 90% 90%, rgba(240, 240, 240, 0.05), transparent 25%), var(--orion-deep-space);
+    background-size: 200% 200%;
+    animation: background-pan 30s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+@keyframes background-pan {
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: 100% 100%;
+    }
+}
+
+
+/* Container & Grid */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--orion-space-lg);
+}
+
+.orion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--orion-space-lg);
+    margin-top: var(--orion-space-xl);
+}
+
+.orion-component-example {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orion-space-md);
+    margin-top: var(--orion-space-md);
+    align-items: center;
+}
+
+pre {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--orion-border);
+    border-radius: var(--orion-radius-sm);
+    padding: var(--orion-space-sm);
+    font-family: var(--orion-font-mono);
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-x: auto;
+}
+
+code {
+    font-family: var(--orion-font-mono);
+}
+
+
+/* -------------------------------------- */
+
+
+/* Components */
+
+
+/* -------------------------------------- */
+
+
+/* Card */
+
+.orion-card {
+    background-color: var(--orion-star-field);
+    border: 1px solid var(--orion-border);
+    border-radius: var(--orion-radius-lg);
+    box-shadow: var(--orion-shadow);
+    padding: var(--orion-space-lg);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: transform var(--orion-anim-normal) ease, box-shadow var(--orion-anim-normal) ease, border-color var(--orion-anim-normal) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.orion-card-nested {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--orion-radius-sm);
+    padding: var(--orion-space-md);
+    border: 1px solid var(--orion-border);
+    backdrop-filter: blur(3px);
+}
+
+.orion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--orion-glow);
+    border-color: var(--orion-primary);
+}
+
+.orion-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--orion-primary) 0%, transparent 20%);
+    opacity: 0;
+    transition: opacity var(--orion-anim-normal) ease;
+    z-index: -1;
+}
+
+.orion-card:hover::before {
+    opacity: 0.1;
+    animation: aurora 10s linear infinite;
+}
+
+@keyframes aurora {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Matrix Grid */
+
+#orion-matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+    grid-auto-rows: 20px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--orion-border);
+    border-radius: var(--orion-radius-sm);
+    overflow: hidden;
+    height: 150px;
+    padding: var(--orion-space-sm);
+}
+
+.matrix-cell {
+    font-family: var(--orion-font-mono);
+    font-size: 0.8rem;
+    color: var(--orion-accent);
+    opacity: 0.1;
+    transition: opacity var(--orion-anim-normal) ease, color var(--orion-anim-normal) ease;
+}
+
+.matrix-cell.active {
+    opacity: 1;
+    color: var(--orion-primary);
+    animation: cell-fade-out 2s forwards;
+}
+
+@keyframes cell-fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.1;
+    }
+}
+
+
+/* Code Terminal */
+
+.orion-terminal {
+    background-color: var(--orion-deep-space);
+    border: 1px solid var(--orion-border);
+    padding: var(--orion-space-md);
+    border-radius: var(--orion-radius-md);
+    font-family: var(--orion-font-mono);
+    color: var(--orion-accent);
+    overflow: hidden;
+    height: 100px;
+}
+
+.orion-terminal pre {
+    margin: 0;
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
+.orion-terminal .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1em;
+    margin-left: 2px;
+    background-color: var(--orion-primary);
+    vertical-align: text-bottom;
+    animation: blink-cursor 1s step-end infinite;
+}
+
+@keyframes blink-cursor {
+    from,
+    to {
+        visibility: hidden;
+    }
+    50% {
+        visibility: visible;
+    }
+}
+
+
+/* Buttons */
+
+.orion-btn {
+    font-family: var(--orion-font-mono);
+    font-size: var(--orion-font-size);
+    padding: var(--orion-space-sm) var(--orion-space-md);
+    border: none;
+    border-radius: var(--orion-radius-sm);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color var(--orion-anim-normal) ease, transform var(--orion-anim-fast) ease, box-shadow var(--orion-anim-normal) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.orion-btn-primary {
+    background-color: var(--orion-primary);
+    color: var(--orion-dark);
+    box-shadow: 0 0 10px rgba(240, 240, 240, 0.3);
+}
+
+.orion-btn-primary:hover {
+    background-color: var(--orion-light-gray);
+    transform: scale(1.05);
+    box-shadow: var(--orion-primary-glow);
+}
+
+.orion-btn-ghost {
+    background-color: transparent;
+    color: var(--orion-accent);
+    border: 1px solid var(--orion-accent);
+}
+
+.orion-btn-ghost:hover {
+    background-color: rgba(240, 240, 240, 0.1);
+    box-shadow: 0 0 5px var(--orion-accent);
+}
+
+
+/* Forms */
+
+.orion-input,
+.orion-textarea {
+    width: 100%;
+    padding: var(--orion-space-sm);
+    margin-bottom: var(--orion-space-md);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--orion-border);
+    color: var(--orion-text);
+    border-radius: var(--orion-radius-sm);
+    font-family: var(--orion-font-sans);
+    transition: border-color var(--orion-anim-normal) ease, box-shadow var(--orion-anim-normal) ease;
+}
+
+.orion-input:focus,
+.orion-textarea:focus {
+    outline: none;
+    border-color: var(--orion-primary);
+    box-shadow: var(--orion-primary-glow);
+}
+
+
+/* Navigation */
+
+.orion-navbar {
+    background-color: var(--orion-star-field);
+    padding: var(--orion-space-md) var(--orion-space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--orion-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+}
+
+.orion-navbar .orion-nav-links {
+    display: flex;
+    gap: var(--orion-space-md);
+}
+
+.orion-navbar a {
+    color: var(--orion-light-gray);
+    text-decoration: none;
+    font-family: var(--orion-font-mono);
+    text-transform: uppercase;
+    transition: color var(--orion-anim-normal) ease, text-shadow var(--orion-anim-normal) ease;
+}
+
+.orion-navbar a:hover {
+    color: var(--orion-primary);
+    text-shadow: 0 0 5px var(--orion-primary);
+}
+
+
+/* Progress Bar */
+
+.orion-progress {
+    width: 100%;
+    height: var(--orion-space-sm);
+    background-color: var(--orion-deep-space);
+    border-radius: var(--orion-radius-sm);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--orion-border);
+}
+
+.orion-progress-bar {
+    height: 100%;
+    background-color: var(--orion-primary);
+    transition: width var(--orion-anim-slow) ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.orion-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(240, 240, 240, 0.3), transparent);
+    transform: skewX(-20deg);
+    animation: progress-shine 2s linear infinite;
+}
+
+@keyframes progress-shine {
+    from {
+        transform: translateX(0) skewX(-20deg);
+    }
+    to {
+        transform: translateX(100%) skewX(-20deg);
+    }
+}
+
+
+/* Data Table */
+
+.orion-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--orion-space-md);
+}
+
+.orion-table thead {
+    background-color: var(--orion-star-field);
+}
+
+.orion-table th,
+.orion-table td {
+    padding: var(--orion-space-sm) var(--orion-space-md);
+    text-align: left;
+    border-bottom: 1px solid var(--orion-border);
+    font-family: var(--orion-font-mono);
+}
+
+.orion-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 10px rgba(240, 240, 240, 0.2);
+}
+
+
+/* Switches */
+
+.orion-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.orion-switch input {
+    display: none;
+}
+
+.orion-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--orion-deep-space);
+    border: 1px solid var(--orion-border);
+    transition: var(--orion-anim-normal);
+    border-radius: var(--orion-radius-full);
+}
+
+.orion-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--orion-accent);
+    transition: var(--orion-anim-normal);
+    border-radius: 50%;
+}
+
+input:checked+.orion-slider {
+    background-color: var(--orion-primary);
+    border-color: var(--orion-primary);
+}
+
+input:checked+.orion-slider:before {
+    transform: translateX(26px);
+    background-color: var(--orion-dark);
+}
+
+
+/* Dropdown */
+
+.orion-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.orion-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    min-width: 160px;
+    box-shadow: var(--orion-shadow);
+    z-index: 1;
+    border: 1px solid var(--orion-border);
+    border-radius: var(--orion-radius-sm);
+    padding: var(--orion-space-xs);
+    animation: fadeInDropdown var(--orion-anim-normal) ease forwards;
+}
+
+.orion-dropdown-content a {
+    color: var(--orion-text);
+    padding: var(--orion-space-sm) var(--orion-space-md);
+    text-decoration: none;
+    display: block;
+    transition: background-color var(--orion-anim-fast) ease, color var(--orion-anim-fast) ease;
+    border-radius: var(--orion-radius-sm);
+}
+
+.orion-dropdown-content a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--orion-primary);
+}
+
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Accordion */
+
+.orion-accordion-header {
+    background-color: var(--orion-star-field);
+    color: var(--orion-text);
+    cursor: pointer;
+    padding: var(--orion-space-md);
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    transition: background-color var(--orion-anim-normal) ease;
+    border-bottom: 1px solid var(--orion-border);
+    font-family: var(--orion-font-sans);
+}
+
+.orion-accordion-header:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.orion-accordion-content {
+    padding: 0 var(--orion-space-md);
+    background-color: var(--orion-deep-space);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--orion-anim-normal) ease-out;
+}
+
+.orion-accordion-content p {
+    padding: var(--orion-space-md) 0;
+}
+
+
+/* Tabs */
+
+.orion-tabs {
+    border: 1px solid var(--orion-border);
+    border-radius: var(--orion-radius-md);
+    overflow: hidden;
+}
+
+.orion-tab-headers {
+    display: flex;
+    border-bottom: 1px solid var(--orion-border);
+}
+
+.orion-tab-header {
+    flex: 1;
+    padding: var(--orion-space-sm) var(--orion-space-md);
+    background-color: var(--orion-star-field);
+    border: none;
+    color: var(--orion-text);
+    cursor: pointer;
+    transition: background-color var(--orion-anim-normal) ease, color var(--orion-anim-normal) ease;
+    font-family: var(--orion-font-mono);
+}
+
+.orion-tab-header:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.orion-tab-header.orion-active-tab {
+    background-color: var(--orion-primary);
+    color: var(--orion-dark);
+}
+
+.orion-tab-content {
+    padding: var(--orion-space-md);
+    display: none;
+    animation: fadeIn var(--orion-anim-normal) ease;
+}
+
+.orion-tab-content.orion-active-content {
+    display: block;
+}
+
+
+/* Modals */
+
+.orion-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.orion-modal-content {
+    background-color: var(--orion-star-field);
+    margin: 15% auto;
+    padding: var(--orion-space-lg);
+    border: 1px solid var(--orion-border);
+    width: 80%;
+    max-width: 500px;
+    animation: fadeIn var(--orion-anim-normal);
+}
+
+.orion-modal-close {
+    color: var(--orion-mid-gray);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.orion-modal-close:hover,
+.orion-modal-close:focus {
+    color: var(--orion-accent);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Alerts */
+
+.orion-alert {
+    padding: var(--orion-space-md);
+    border-radius: var(--orion-radius-sm);
+    margin-bottom: var(--orion-space-md);
+    border: 1px solid;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.orion-alert-info {
+    background-color: rgba(179, 205, 224, 0.1);
+    color: var(--orion-info);
+    border-color: var(--orion-info);
+}
+
+.orion-alert-warning {
+    background-color: rgba(255, 191, 0, 0.1);
+    color: var(--orion-warning);
+    border-color: var(--orion-warning);
+}
+
+.orion-alert-error {
+    background-color: rgba(255, 77, 77, 0.1);
+    color: var(--orion-error);
+    border-color: var(--orion-error);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    }
+}
+
+
+/* Toasts */
+
+#orion-toast-container {
+    position: fixed;
+    bottom: var(--orion-space-lg);
+    right: var(--orion-space-lg);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: var(--orion-space-sm);
+}
+
+.orion-toast {
+    background-color: var(--orion-star-field);
+    color: var(--orion-text);
+    padding: var(--orion-space-md);
+    border-radius: var(--orion-radius-sm);
+    border: 1px solid var(--orion-border);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    min-width: 250px;
+    box-shadow: var(--orion-shadow);
+    animation: slideIn var(--orion-anim-normal) ease-out, fadeOut var(--orion-anim-normal) ease-in 2.5s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+
+/* Utilities */
+
+.text-center {
+    text-align: center;
+}
+
+.my-lg {
+    margin-top: var(--orion-space-lg);
+    margin-bottom: var(--orion-space-lg);
+}
+
+.mt-md {
+    margin-top: var(--orion-space-md);
+}
+
+.my-md {
+    margin-top: var(--orion-space-md);
+    margin-bottom: var(--orion-space-md);
+}
